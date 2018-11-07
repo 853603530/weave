@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gl.weave.dao.SysUserMapper">
+  <resultMap id="BaseResultMap" type="com.gl.weave.model.SysUser">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="MP" jdbcType="VARCHAR" property="mp" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+    <result column="OP_DATE" jdbcType="TIMESTAMP" property="opDate" />
+    <result column="ACTIVE" jdbcType="VARCHAR" property="active" />
+    <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="companies" jdbcType="BIGINT" property="companies" />
+    <result column="GROUP_FLAG" jdbcType="TINYINT" property="groupFlag" />
+    <result column="GROUP_ID" jdbcType="SMALLINT" property="groupId" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="real_Name" jdbcType="VARCHAR" property="realName" />
+    <result column="user_Address" jdbcType="VARCHAR" property="userAddress" />
+    <result column="account_Number" jdbcType="VARCHAR" property="accountNumber" />
+    <result column="introducer" jdbcType="VARCHAR" property="introducer" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOGIN_NAME, PASSWORD, USER_NAME, TITLE, MP, EMAIL, TEL, OPERATOR, OP_DATE, ACTIVE, 
+    wechat, CREATE_DATE, CREATE_USER, GENDER, companies, GROUP_FLAG, GROUP_ID, user_type, 
+    real_Name, user_Address, account_Number, introducer
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_user
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.gl.weave.model.SysUser">
+    insert into sys_user (ID, LOGIN_NAME, PASSWORD, 
+      USER_NAME, TITLE, MP, 
+      EMAIL, TEL, OPERATOR, 
+      OP_DATE, ACTIVE, wechat, 
+      CREATE_DATE, CREATE_USER, GENDER, 
+      companies, GROUP_FLAG, GROUP_ID, 
+      user_type, real_Name, user_Address, 
+      account_Number, introducer)
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{mp,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{opDate,jdbcType=TIMESTAMP}, #{active,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{companies,jdbcType=BIGINT}, #{groupFlag,jdbcType=TINYINT}, #{groupId,jdbcType=SMALLINT}, 
+      #{userType,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, 
+      #{accountNumber,jdbcType=VARCHAR}, #{introducer,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gl.weave.model.SysUser">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="loginName != null">
+        LOGIN_NAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="mp != null">
+        MP,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="tel != null">
+        TEL,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
+      <if test="opDate != null">
+        OP_DATE,
+      </if>
+      <if test="active != null">
+        ACTIVE,
+      </if>
+      <if test="wechat != null">
+        wechat,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+      <if test="gender != null">
+        GENDER,
+      </if>
+      <if test="companies != null">
+        companies,
+      </if>
+      <if test="groupFlag != null">
+        GROUP_FLAG,
+      </if>
+      <if test="groupId != null">
+        GROUP_ID,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="realName != null">
+        real_Name,
+      </if>
+      <if test="userAddress != null">
+        user_Address,
+      </if>
+      <if test="accountNumber != null">
+        account_Number,
+      </if>
+      <if test="introducer != null">
+        introducer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="mp != null">
+        #{mp,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="opDate != null">
+        #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="companies != null">
+        #{companies,jdbcType=BIGINT},
+      </if>
+      <if test="groupFlag != null">
+        #{groupFlag,jdbcType=TINYINT},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=SMALLINT},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null">
+        #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="introducer != null">
+        #{introducer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gl.weave.model.SysUser">
+    update sys_user
+    <set>
+      <if test="loginName != null">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="mp != null">
+        MP = #{mp,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="opDate != null">
+        OP_DATE = #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        ACTIVE = #{active,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        wechat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="companies != null">
+        companies = #{companies,jdbcType=BIGINT},
+      </if>
+      <if test="groupFlag != null">
+        GROUP_FLAG = #{groupFlag,jdbcType=TINYINT},
+      </if>
+      <if test="groupId != null">
+        GROUP_ID = #{groupId,jdbcType=SMALLINT},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_Name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        user_Address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null">
+        account_Number = #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="introducer != null">
+        introducer = #{introducer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gl.weave.model.SysUser">
+    update sys_user
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      MP = #{mp,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OP_DATE = #{opDate,jdbcType=TIMESTAMP},
+      ACTIVE = #{active,jdbcType=VARCHAR},
+      wechat = #{wechat,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      companies = #{companies,jdbcType=BIGINT},
+      GROUP_FLAG = #{groupFlag,jdbcType=TINYINT},
+      GROUP_ID = #{groupId,jdbcType=SMALLINT},
+      user_type = #{userType,jdbcType=VARCHAR},
+      real_Name = #{realName,jdbcType=VARCHAR},
+      user_Address = #{userAddress,jdbcType=VARCHAR},
+      account_Number = #{accountNumber,jdbcType=VARCHAR},
+      introducer = #{introducer,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
