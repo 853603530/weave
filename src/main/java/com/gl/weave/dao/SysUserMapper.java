@@ -1,5 +1,7 @@
 package com.gl.weave.dao;
 
+import java.util.List;
+
 import com.gl.weave.model.SysUser;
 
 public interface SysUserMapper {
@@ -14,4 +16,6 @@ public interface SysUserMapper {
     int updateByPrimaryKeySelective(SysUser record);
 
     int updateByPrimaryKey(SysUser record);
+
+	List<SysUser> selectAll();
 }
