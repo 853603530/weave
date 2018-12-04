@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	for (SysUser sysUser : list) {
 		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser(sysUser.getLoginName()).password(new BCryptPasswordEncoder().encode(sysUser.getPassword())).roles(sysUser.getUserName());
     	}
+    	
         //也可以将用户名密码写在内存，不推荐
         //auth.inMemoryAuthentication().withUser("admin").password("111111").roles("USER");
     }
