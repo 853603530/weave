@@ -19,10 +19,10 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import com.gl.weave.dao.SysUserMapper;
 import com.gl.weave.model.SysUser;
+import com.gl.weave.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -46,19 +46,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return manager;
     }*/
 
-	@Autowired
+	/*@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("123")).roles("USER");
-	}
+	}*/
 	
-	/*@Autowired
-	private SysUserMapper sysUserMapper;
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		List<SysUser> list=sysUserMapper.selectAll();
+	private SysUserMapper sysUserMapper;
+	
+	@Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(systemUserService()).passwordEncoder(passwordEncoder());
+        List<SysUser> list=sysUserMapper.selectAll();
     	for (SysUser sysUser : list) {
 		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser(sysUser.getLoginName()).password(new BCryptPasswordEncoder().encode(sysUser.getPassword())).roles(sysUser.getUserName());
-    		}
-    }*/
+    	}
+        //也可以将用户名密码写在内存，不推荐
+        //auth.inMemoryAuthentication().withUser("admin").password("111111").roles("USER");
+    }
+
+    /**
+     * 设置用户密码的加密方式为MD5加密
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
+     *从数据库中读取用户信息
+     */
+    @Bean
+    public UserDetailsService systemUserService() {
+        return new UserService();
+    }
+
 	
 }

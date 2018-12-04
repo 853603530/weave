@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.gl.weave.dao.SysRoleMapper;
 import com.gl.weave.dao.SysUserMapper;
 import com.gl.weave.model.SysUser;
 
@@ -18,6 +19,8 @@ import com.gl.weave.model.SysUser;
 public class UserController {
 	@Autowired
 	private SysUserMapper sysUserMapper;
+	@Autowired
+	private SysRoleMapper sysRoleMapper;
     @RequestMapping("/")
     public String index() {
         return "index";
@@ -25,13 +28,14 @@ public class UserController {
 
     @RequestMapping("/hello")
     public String hello() {
+    	List<SysUser> list=sysUserMapper.selectAll();
+    	sysRoleMapper.selectByPrimaryKey((long)1);
+    	System.out.println(list.toString());
         return "hello";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-    	List<SysUser> list=sysUserMapper.selectAll();
-    	System.out.println(list.toString());
         return "login";
     }
 }
