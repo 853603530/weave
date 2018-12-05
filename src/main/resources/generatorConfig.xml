@@ -52,7 +52,7 @@
 		<!-- schema即为数据库名, tableName为对应的数据库表, domainObjectName是要生成的实体类, 如果想要mapper配置文件加入sql的where条件查询, 
 			可以将enableCountByExample等设为true, 这样就会生成一个对应domainObjectName的Example类, enableCountByExample等设为false时, 
 			就不会生成对应的Example类了. -->
-		<table tableName="sys_role" domainObjectName="SysRole"
+		<table tableName="sys_user" domainObjectName="SysUser"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">
