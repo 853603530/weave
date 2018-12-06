@@ -23,7 +23,7 @@ public class UserController {
 	private SysRoleMapper sysRoleMapper;
     @RequestMapping("/")
     public String index() {
-        return "index";
+        return "/page/index";
     }
 
     @RequestMapping("/hello")
@@ -31,11 +31,11 @@ public class UserController {
     	List<SysUser> list=sysUserMapper.selectAll();
     	sysRoleMapper.selectByPrimaryKey((long)1);
     	System.out.println(list.toString());
-        return "hello";
+        return "/page/hello";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-        return "login";
+        return "/page/login";
     }
 }

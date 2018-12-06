@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.gl.weave.dao.SysUserMapper;
+import com.gl.weave.exception.MyUsernameNotFoundException;
 import com.gl.weave.model.SysUser;
 @Service("UserService")
 public class UserService implements UserDetailsService {
@@ -32,15 +33,14 @@ public class UserService implements UserDetailsService {
     	SysUser sysUser = sysUserMapper.queryByUserName(s);
     	String password=null;
         if (sysUser == null) {
-        	Throwable t=new Throwable();
-        	throw new UsernameNotFoundException("用户名不存在");
+        	throw new MyUsernameNotFoundException("用户名不存在");
         }
         password=sysUser.getPassword();
         List<GrantedAuthority> AUTHORITIES = new ArrayList<GrantedAuthority>();
         AUTHORITIES.add(new SimpleGrantedAuthority("ROLE_USER"));
         User user = new User(sysUser.getLoginName(),password, true, true, true, true, AUTHORITIES);
         //User user = new User(sysUser.getLoginName(),password, (Collection<? extends GrantedAuthority>) au);
-        System.out.println("username is : " + sysUser.getLoginName() + ", password is :" + sysUser.getPassword());
+        //System.out.println("username is : " + sysUser.getLoginName() + ", password is :" + sysUser.getPassword());
         return user;
     }
     

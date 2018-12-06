@@ -26,60 +26,64 @@ import com.gl.weave.service.UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.authorizeRequests()
-		.antMatchers("/templates").permitAll()
+		http.
+		authorizeRequests()
+		.antMatchers("/static/js").permitAll()
 		.anyRequest().authenticated()
-		.and()
-		.formLogin()
+		.and().formLogin().successForwardUrl("/")
+		//.defaultSuccessUrl("/page/index")
 		//.loginPage("/login").permitAll()
-		.and()
-		.logout().permitAll()
-		.and()
-        .csrf().disable();
+		.and().logout().permitAll()
+		.and().csrf().disable();
 	}
-	
-	/*@Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withDefaultPasswordEncoder().username("admin").password("123").roles("USER").build());
-        return manager;
-    }*/
+	@Override
+    public void configure(WebSecurity web) throws Exception {        
+        web.ignoring().antMatchers("/hello");	//配置访问该页面不会自动跳转到后台登录页面中
+        
+   }
+	/*
+	 * @Bean public UserDetailsService userDetailsService() {
+	 * InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+	 * manager.createUser(User.withDefaultPasswordEncoder().username("admin").
+	 * password("123").roles("USER").build()); return manager; }
+	 */
 
-	/*@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("123")).roles("USER");
-	}*/
-	
+	/*
+	 * @Autowired public void configureGlobal(AuthenticationManagerBuilder auth)
+	 * throws Exception { auth.inMemoryAuthentication().passwordEncoder(new
+	 * BCryptPasswordEncoder()).withUser("admin").password(new
+	 * BCryptPasswordEncoder().encode("123")).roles("USER"); }
+	 */
+
 	@Autowired
 	private SysUserMapper sysUserMapper;
-	
+
 	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(systemUserService()).passwordEncoder(passwordEncoder());
-        List<SysUser> list=sysUserMapper.selectAll();
-    	for (SysUser sysUser : list) {
-		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser(sysUser.getLoginName()).password(new BCryptPasswordEncoder().encode(sysUser.getPassword())).roles(sysUser.getUserName());
-    	}
-        //也可以将用户名密码写在内存，不推荐
-        //auth.inMemoryAuthentication().withUser("admin").password("111111").roles("USER");
-    }
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(systemUserService()).passwordEncoder(passwordEncoder());
+		List<SysUser> list = sysUserMapper.selectAll();
+		for (SysUser sysUser : list) {
+			auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser(sysUser.getLoginName())
+					.password(new BCryptPasswordEncoder().encode(sysUser.getPassword())).roles(sysUser.getUserName());
+		}
+		// 也可以将用户名密码写在内存，不推荐
+		// auth.inMemoryAuthentication().withUser("admin").password("111111").roles("USER");
+	}
 
-    /**
-     * 设置用户密码的加密方式为MD5加密
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	/**
+	 * 设置用户密码的加密方式为MD5加密
+	 */
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    /**
-     *从数据库中读取用户信息
-     */
-    @Bean
-    public UserDetailsService systemUserService() {
-        return new UserService();
-    }
+	/**
+	 * 从数据库中读取用户信息
+	 */
+	@Bean
+	public UserDetailsService systemUserService() {
+		return new UserService();
+	}
 
-	
 }
