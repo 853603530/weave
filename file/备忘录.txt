@@ -1,0 +1,551 @@
+
+-----------------------------------定位---bootstrap tab页跳转------------------------------------------------------
+$("html,body").animate({scrollTop: $("#sx").offset().top+600}, 1000);//定位
+$('#myTab a[href="#tab_content2"]').tab('show');//bootstrap tab页跳转
+
+--------------------------------字符串转json------------------------------------------------------------
+$.ajax({
+		type:"get",
+		url:mypath+"/hig/findGeneralName.htm",
+		success:function(data){
+			var data1 = JSON.parse(data);
+			var data1 = eval("("+data+")");
+			alert(data1[0].generalName);
+		}
+	})
+	
+----------------------------------------页面任何地方弹出框关闭----------------------------------------------------
+/*点击xx.或者页面任何地方弹出框关闭*/
+	e.stopPropagation();
+    $(document,".fa-times").click(function(){
+      $(".selectModel").hide();
+    })
+-------------------------------------keyup--each---indexOf字符串包含---append动态加HTML标签-----------------------
+/input 检索匹配
+
+$("#generalName").keyup(function(){
+			var val=this.value;
+			$.each(generalNameJson,function(index){
+				if(val==''){
+					$(".selectModel ul").html("");
+					$.each(generalNameJson,function(){
+						$(".selectModel ul").append('<Li onClick="setGN(\''+this.generalName+'\')">'+this.generalName+'</Li>');
+					})
+					return false;
+				}
+				if(index==0){
+					$(".selectModel ul").html("");
+				}
+				if(this.generalName.indexOf(val)>-1){
+					$(".selectModel ul").append('<Li onClick="setGN(\''+this.generalName+'\')">'+this.generalName+'</Li>');
+				}
+			})
+		})
+---------------------------------------bootstrap模态框-------------------------------------------------------------	
+<!-- Modal -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#2A3F54;color:#fff">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel" >商品活动列表</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+        <button type="button" class="btn btn-dark pull-right" onclick="ptdownload()" style="margin-left: 5px;">导出</button>
+        <div id="single_cal4" class="pull-right mydateToday" style="background: #fff; height:35px;cursor: pointer; padding: 5px 10px; border: 1px solid #ccc" onchange="showAlertTable()">
+                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                      <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+        </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div style="height:400px;overflow-y: auto;">
+        <table class="table table-striped table-bordered bulk_action center-align" id="tablecontent" width="100%" border="0" cellspacing="0" cellpadding="0">
+  
+                          <thead>
+                            <tr>
+                             <th class="center-align">时间</th>
+                             <th class="center-align">活动</th>
+                             <th class="center-align">推广</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                              
+
+                          </tbody>
+       </table>
+       </div>
+       <div class="clearfix"></div>
+      	</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>		
+-------------------------select绑定datatable自带的检索款----------------------------------------------------------------------------------		
+	$("#generalName1").change(function(e){
+			$("#csss").val(val);
+			$("#csss").keyup();
+			
+		})	
+ //4、设置排序字段
+				    $('#setProduct').dataTable({
+					 searching : false, //去掉搜索框方法一：百度上的方法，但是我用这没管用
+        sDom : '"top"i',   //去掉搜索框方法二：这种方法可以，动态获取数据时会引起错误
+        bFilter: false,    //去掉搜索框方法三：这种方法可以
+        bLengthChange: false,   //去掉每页显示多少条数据方法
+					
+					
+					searching:false,//关闭搜索
+					"ordering": false//禁止排序
+			            'order': [[ 2, 'desc' ]],
+			            'columnDefs': [
+			            { orderable: false, targets: [0] ,searchable: false},//searchable不检索该列
+			            { orderable: false, targets: [1],searchable: false },
+			            { orderable: true, targets: [2] },
+			            { orderable: true, targets: [3] },
+			           
+			            { orderable: true, targets: [5] },
+			            { orderable: false, targets: [6] },
+			            { orderable: false, targets: [7] }
+			            ]
+			        });
+
+
+				    $('input[type="search"]').addClass('form-control');
+				    $('input[type="search"]').attr('placeholder','按平台、品牌、统一名称、商品名称检索');
+				    $('input[type="search"]').attr('style','width:300px;display:none;');
+				    $('input[type="search"]').attr('id','csss');
+					$('input[type="search"]').parent().attr('style','display:none;');
+-------------------------------获取url链接参数----------------------------------------------------------------------------
+					
+function GetUrlParam(paraName) {
+	var url = document.location.toString();
+	var arrObj = url.split("?");
+	if (arrObj.length > 1) {
+		var arrPara = arrObj[1].split("&");
+		var arr;
+		for (var i = 0; i < arrPara.length; i++) {
+			arr = arrPara[i].split("=");
+			if (arr != null && arr[0] == paraName) {
+				return arr[1];
+			}
+		}
+		return "";
+	}else {
+		return "";
+	}
+
+function getURLParameter(name) { 
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    var r = window.location.search.substr(1).match(reg); 
+    if (r != null) return decodeURI(r[2]); 
+    return null; 
+}
+	
+	
+	
+	
+	
+	
+------------------------------------------------------JS实现的Unicode编码转-----------------------------------------------------------------------------
+var decToHex = function(str) {
+  var res=[];
+  for(var i=0;i < str.length;i++)
+    res[i]=("00"+str.charCodeAt(i).toString(16)).slice(-4);
+  return "\\u"+res.join("\\u");
+}
+var hexToDec = function(str) {
+  str=str.replace(/\\/g,"%");
+  return unescape(str);
+}
+
+---------------------------------------------------js数组删除指定位置长度也变-------------------------------------------------------------------------------------------
+
+legend_data.splice(0, 1)
+-------------------------------------------------------过滤JS数组中的空值----------------------------------------------------------------------------------------------------------
+/** 
+ * 过滤JS数组中的空值，返回新的数组 
+ * @param array 需要过滤的数组 
+ * @returns {Array} [] 
+ */  
+function clear_arr_trim(array) {  
+    for(var i = 0 ;i<array.length;i++)  
+    {  
+        if(array[i] == "" || typeof(array[i]) == "undefined")  
+        {  
+            array.splice(i,1);  
+            i= i-1;  
+        }  
+    }  
+    return array;  
+}
+
+
+-----------------------------------------------获取月份最后一天--------------------------------------------------------------------------------------------------------
+function getLastDay(year,month)   
+{   
+ var new_year = year;  //取当前的年份   
+ var new_month = ++month;//取下一个月的第一天，方便计算（最后一天不固定）   
+ if(month>11)      //如果当前大于12月，则年份转到下一年   
+ {   
+ new_month -=12;    //月份减   
+ new_year++;      //年份增   
+ }   
+ var new_date = new Date(new_year,new_month,1);        //取当年当月中的第一天   
+ return (new Date(new_date.getTime()-1000*60*60*24)).getDate();//获取当月最后一天日期   
+} 
+-----------------------------------------------------UTC转时区（美国东西海岸时间）时间戳转时间（）---------------------------------------------------------------
+function timestampToTime(timestamp) {
+	var timestamp4 = new Date(timestamp);
+	return timestamp4.toLocaleDateString().replace(/\//g, "-") + " " + timestamp4.toTimeString().substr(0, 8)
+}
+
+setInterval(function(){
+	var date = new Date();
+	var y =  date.getUTCFullYear();//获取年：
+	var m = date.getUTCMonth() ;//获取月： 
+	var d = date.getUTCDate();//获取日： 
+	var h= date.getUTCHours();//获取小时：
+	var M = date.getUTCMinutes();//获取分钟：
+	var s = date.getUTCSeconds();//获取秒钟：
+	var ss=date.getUTCMilliseconds();
+	
+	var xx=new Date(y,m,d,h,M,s,ss).getTime();
+	var westTime=xx/1000-3600*7;//西海岸
+	var eastTime=xx/1000-3600*4;//东海岸
+	$("#eastTime").text(timestampToTime(eastTime*1000));
+	$("#westTime").text(timestampToTime(westTime*1000));
+}, 500);
+
+--------------------------jQuery获取同级元素--------------------------------------------------------------------------------------------------------------------
+
+jQuery获取同级元素
+next()相邻下一个同级元素
+
+prev()相邻上一个同级元素
+
+siblings()所有同级元素
+
+$("#id").next();
+$("#id").prev();
+$("#id").siblings();
+--------------------------------------------------------tab切换-----------------------------------------------------------------------------------------------------
+// tab切换
+$(".tablist>li").click(function() {
+	var index = $(this).index();
+	$(this).addClass("active").siblings("li").removeClass("active");
+	$(".tablistTarget:eq(" + index + ")").show().siblings(".tablistTarget").hide();
+
+})
+---------------------------------------------动态产生的ul li---------------------------------------------------
+搞了很久， 发现对应jquery来说， 动态产生的ul li（其实不只是这个， 还有 table td等），
+
+直接使用
+
+$("#ul_div>li").click(function() {});
+　　是不起作用的。
+
+　　解决方案是 
+$(".tabLabel").on("click", "li", function() {
+	alert($(this).text())
+	$(this).siblings().removeClass("active");
+	$(this).addClass("active");
+});
+
+document.addEventListener('DOMContentLoaded', function(){
+	$("tr").on("click", "td:eq(2)", function() {
+		alert($(this).text())
+		
+	});
+})
+---------------------------------------------------Java controller 重定向----------------------
+return "forward:/direct/login.htm";
+
+--------------------------------------------chrom插件//当前标签页跳转--------------------------------------------------------------------------
+				 	backgroundPage.js
+					function getCurrentTabId(callback){
+						chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+											if(callback) callback(tabs.length ? tabs[0].id: null);
+											});
+										}
+					
+					
+					//第一种跳转
+					backgroundPage.getCurrentTabId(function(tabId) {
+						chrome.tabs.update(tabId, {url: chrome.extension.getURL('html/popup.html')});
+					})
+					//第二种跳转
+					//chrome.tabs.update(undefined, {url: chrome.extension.getURL('html/popup.html')});
+
+------------------------------------------------------获取dom元素-------------------------------------------------------------------------------
+
+在JavaScript中有多种获取DOM元素的方法，常见的有getElementById、getElementsByName、getElementsByTagName、getElementsByClassName，分别是通过id、name、标签名和类名获取元素。		
+请注意，上面提到的四种方法中，第一个方法名中是Element，而后面的都是Elements。这是因为HTML中元素的id必须是唯一的，但是不同的元素可以拥有同样的name、标签名和类名，所以通过第一种方式获取的是一个元素，而后几种方法获取的是一个包含多个元素的数组。值得强调的是，即使HTML中只有一个元素的name为"my_element"，那么通过getElementsByName('my_element')获取到的也是数组型的数据——虽然这个数组只包含一个元素。		
+JavaScript可以通过getAttribute方法读取元素的属性，通过setAttribute方法添加或更改元素的属性，通过removeAttribute方法删除元素的属性。对于非自定义的属性，JavaScript可以直接像读取对象属性那样读取或更改它们，比如：
+
+var imgurl = document.getElementById('my_image').src;
+document.getElementById('my_another_image').src = imgurl;
+// var imgurl = document.getElementById('my_image').getAttribute('src');
+// document.getElementById('my_another_image').setAttribute('src', imgurl);
+
+
+------------------------------------------------CSS的选择器---------------------------------------------------------------------------------------------
+	CSS的选择器基本分为三种，分别是tagName、.className和#id。如下面的例子：
+
+p {
+   width: 200px;
+}
+.postlist {
+   width: 150px;
+}
+#footer {
+  width: 100px;
+}
+
+
+CSS选择器还可以通过元素属性进行定位，比如下面的例子可以作用于所有文本输入框：
+
+input[type="text"] {
+   font-size: 16px;
+}
+
+------------------------------------------------------------异步请求----------------------------------------------------------------------------------------------------
+function httpRequest(url, callback){
+   var xhr = new XMLHttpRequest();
+   xhr.open("GET", url, true);
+   xhr.onreadystatechange = function() {
+       if (xhr.readyState == 4) {
+           callback(xhr.responseText);
+       }
+   }
+   xhr.send();
+}
+var html;
+httpRequest('test.txt', function(result){
+   html = result;
+   console.log(html);
+});
+---------------------------------------------------------js判断类型------------------------------------------------------------------------------------------------------------------
+console.log(Object.prototype.toString.call(123)) //输出[object Number]
+
+if(Object.prototype.toString.call(value)=="[object String]"){
+               data=JSON.parse(value);
+}
+
+console.log(Object.prototype.toString.call('123')) //[object String]
+console.log(Object.prototype.toString.call(undefined)) //[object Undefined]
+console.log(Object.prototype.toString.call(true)) //[object Boolean]
+console.log(Object.prototype.toString.call({})) //[object Object]
+console.log(Object.prototype.toString.call([])) //[object Array]
+console.log(Object.prototype.toString.call(function(){})) //[object Function]
+
+
+-------------------------------------------------------数组是否包含----------------------------------------------------------------------------------------------------------------------------------
+jQuery写法:
+
+var arr = [ "xml", "html", "css", "js" ]; 
+$.inArray("js", arr);  //返回 3,
+如果不包含在数组中,则返回 -1;
+
+JS写法:
+
+1.正则表达式
+
+js 中判断某个元素是否存在于某个 js 数组中，相当于 PHP 语言中的 in_array 函数。
+
+Array.prototype.in_array=function(e){
+var r=new RegExp(','+e+',');
+return (r.test(','+this.join(this.S)+','));};
+
+用法如下
+
+var arr=new Array([‘b',2,‘a‘,4]);
+
+arr.in_array('b');//判断'b'字符是否存在于 arr 数组中，存在返回true 否则false，此处将返回true
+
+注：此函数只对字符和数字有效;
+-----------------------------------------------------js正则去除空格--------------------------------------------------------------------------------------------------------------
+str.replace(/\s/g,"")
+
+---------------------------------------------------------js数组空值替换为0------------------------------------------------------------------------------------------------------
+series=[{"name":"Amazon FBA","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[249,225,275,304,337,281,313]},{"name":"Amazon MFN","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[18,9,4,11,14,5,14]},{"name":"eBay","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[35,37,26,38,47,58,32]},{"name":"Groupon","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[1,null,null,null,4]},{"name":"Store","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[4,76,null,null,21,4,52]},{"name":"Vendor","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[1612,1621,1464,1816,2056]},{"name":"Walmart","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[14,18,20,15,18,31,19]},{"name":"Website","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[147,34,18,48,37,20,82]},{"name":"Web","type":"line","stack":"总量","areaStyle":{"normal":{}},"data":[null,null,null,null,null,1]}]
+
+
+$.each(series,function(index){
+							$.each(this.data,function(count){
+								if("[object Window]"==this){
+									series[index].data[count]=0;
+								}
+							})
+						})
+-------------------------------------legend点击选中事件--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+参考链接https://blog.csdn.net/sunscheung/article/details/76512306
+//不能每次都声明该事件，不然声明多少次就执行多少次
+    	echart1.on('legendselectchanged', function (obj){
+        	var selected = obj.selected;
+            var legend = obj.name;
+            if(selected[legend]){
+            	addCategory(legend)
+            }else{
+            	option.legend.selected[legend]=false;
+            }
+        });
+		
+legend: {
+    	scrollDataIndex:0,定位到第几个
+        type:'scroll',//分页属性
+        selected: {},
+        data:[]
+    }
+	-----------------------------------------计算日期相减天数 -------------------------------------------------------------
+	function DateMinus(sDate){ 
+　　var sdate = new Date(sDate.replace(/-/g, "/")); 
+　　var now = new Date(); 
+　　var days = now.getTime() - sdate.getTime(); 
+　　var day = parseInt(days / (1000 * 60 * 60 * 24)); 
+　　return day; 
+}
+----------------------------------------------JS JQUERY获取两个时间相差几个月--------------------------------------------------------------------------------
+如果不同的年份，则还要计算年份 
+function getIntervalMonth(startDate,endStart){
+        var startMonth = startDate.getMonth();
+        var endMonth = endStart.getMonth();
+        var intervalMonth = (endStart.getFullYear()*12+endMonth) - (startDate.getFullYear()*12+startMonth);
+        return intervalMonth;
+}
+------------------------------------------------存储过程sqlserver---------------------------------------------------------------------------------
+
+CONVERT(varchar,@startDate,126)+'~'+CONVERT(varchar,dateadd(DAY,6,@startDate),126)转string并拼接，126中文日期格式化例如2018-06-06 //23也可以这样格式化
+
+------------------------------------------------------json遍历key和value-----------------------------------------------------------------------------------------
+var anObject = {one:1,two:2,three:3};//对json数组each
+$.each(anObject,function(name,value) {
+alert(name);
+alert(value);
+});
+----------------------------------------------------保留四位小数-------------------------------------------------------------------------------------
+Number(value.toString().match(/^\d+(?:\.\d{0,4})?/))
+
+-------------------------------------------------------------------js代表undefined另一种写法-----------------------------------------------------------
+ var a = void 0;其实就是var a=undefined
+ 
+ 
+ ==============================================================chrome插件ajax请求====================================================================
+ var backgroundPage = chrome.extension.getBackgroundPage();
+var server=backgroundPage.getServer();
+$.ajaxSetup({crossDomain: true, xhrFields: {withCredentials: true}});
+ $.ajax({
+		type:'post',
+		data:{keyword:$("#keyword").val()},
+		url:server[0]._server_port+(server[0].mappings)[24]._interface,
+		success:function(value){
+			var data={};
+			if(Object.prototype.toString.call(value)=="[object String]"){
+				data=JSON.parse(value);
+			}
+			if(Object.prototype.toString.call(value)=="[object Object]"){
+				data=value;
+			}
+			if(data.status==1){
+				$(".cover").hide();
+			}else
+				if(data.status==-1){
+					chrome.tabs.update(undefined, {url: chrome.extension.getURL('html/popup.html')});
+				}else{
+					alert(data.msg)
+				}
+		}
+	})
+------------------------------------------------mybatis多条插入-------------------------------------------------------------------------------------------------------------------------
+
+<insert id="insertBatch">
+      <foreach collection="list" item="c" separator=";">
+  	  if NOT exists(SELECT userid FROM 
+  	  表 
+  	  WHERE 
+	  条件
+
+ 	  ) insert into 
+ 	  表 
+ 	  (列名)
+      values
+      (值)
+ </foreach>
+  </insert>
+
+例：
+<insert id="insertBatch">
+      <foreach collection="list" item="c" separator=";">
+  	  if NOT exists(SELECT userid FROM 
+  	  market_search_rank_tailWord_hot 
+  	  WHERE 
+	  userId = #{c.userid,jdbcType=BIGINT}
+      and shopName = #{c.shopname,jdbcType=NVARCHAR}
+      and indexCode = #{c.indexcode,jdbcType=NVARCHAR}
+      and searchWord = #{c.searchword,jdbcType=NVARCHAR}
+      and startDate = #{c.startdate,jdbcType=DATE}
+      and endDate = #{c.enddate,jdbcType=DATE}
+      and dateType = #{c.datetype,jdbcType=NVARCHAR}
+      and cateId = #{c.cateid,jdbcType=NVARCHAR}
+      and device = #{c.device,jdbcType=NVARCHAR}
+
+ 	  ) insert into 
+ 	  market_search_rank_tailWord_hot 
+ 	  (userId, shopName, indexCode, 
+      searchWord, startDate, endDate, 
+      dateType, cateId, device, 
+      index_code_name, num)
+      values
+      (#{c.userid,jdbcType=BIGINT}, #{c.shopname,jdbcType=NVARCHAR}, #{c.indexcode,jdbcType=NVARCHAR}, 
+      #{c.searchword,jdbcType=NVARCHAR}, #{c.startdate,jdbcType=DATE}, #{c.enddate,jdbcType=DATE}, 
+      #{c.datetype,jdbcType=NVARCHAR}, #{c.cateid,jdbcType=NVARCHAR}, #{c.device,jdbcType=NVARCHAR}, 
+      #{c.indexCodeName,jdbcType=NVARCHAR}, #{c.num,jdbcType=NVARCHAR})
+ </foreach>
+  </insert>
+  
+----------------------------------------------------------------标签操作------------------------------------------------------------------------------------------------------------------------------------
+var a = "<a href='http://www.baidu.com'>百度首页</a>";
+$(A).appendTo(B),  把A元素添加到B元素内部的尾部
+$(a).appendTo(document.body);
+$(a).appendTo("body");
+
+创建一个p元素
+var p1 = "<p>你好,世界!</p>";
+$(A).prepend(B);   在A元素内部的前面添加B
+$("body").prepend(p1);
+--------------------- 
+作者：whong_qi 
+来源：CSDN 
+原文：https://blog.csdn.net/wanhong_qi/article/details/55103811 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+  
+  
+ -------------------------------------------java 获得当天零时零分零秒--------------------------------------------------------------------------
+ /**
+	 * 获得当天零时零分零秒
+	 * @return
+	 */
+	public Date initDateByDay(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.HOUR, -12);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		return calendar.getTime();
+	}
+	
+	---------------------------------------------java模拟post请求-------------------------------------------------------------------------------------------------------
+	HttpClient client = new HttpClient();
+			PostMethod method = new PostMethod("http://localhost:8086/PangolinDataCollect"+request.getServletPath());
+			method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");
+			method.addParameter("userid", String.valueOf(userid));
+			method.addParameter("shopName", shopName);
+			method.addParameter("data", data);
+			client.executeMethod(method);
