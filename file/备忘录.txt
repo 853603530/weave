@@ -540,6 +540,10 @@ $("body").prepend(p1);
 		calendar.set(Calendar.SECOND, 0);
 		return calendar.getTime();
 	}
+	----------------------------mybatis存储过程调用示例--------------------------------------------------------------------
+	<select id="Pangolin_category_core_index_data_preview_download" resultType="map" parameterType="java.util.Map">
+	{call Pangolin_category_core_index_data_preview(#{userId},#{shopName},#{dateType},#{startDate}) }
+	</select>
 	
 	---------------------------------------------java模拟post请求-------------------------------------------------------------------------------------------------------
 	HttpClient client = new HttpClient();

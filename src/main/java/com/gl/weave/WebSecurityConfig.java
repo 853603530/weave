@@ -38,8 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	@Override
     public void configure(WebSecurity web) throws Exception {        
-        web.ignoring().antMatchers("/hello");	//配置访问该页面不会自动跳转到后台登录页面中
-        
+        //web.ignoring().antMatchers("/hello");	//配置访问该页面不会自动跳转到后台登录页面中
    }
 	/*
 	 * @Bean public UserDetailsService userDetailsService() {
